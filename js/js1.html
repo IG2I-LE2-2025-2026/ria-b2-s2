@@ -99,17 +99,59 @@ debug2("message2");  // affiche "message"
 
 // Mieux encore : un objet oDbg offrant les methodes .trace() .reset() ...
 
-oDbg.trace("message");  // affiche "message"
-oDbg.trace("message");  // affiche "message"
-oDbg.trace("message");  // affiche "message"
-oDbg.trace("message");  // affiche "message"
+oDbg = (function (max_interne) {
+	// max_interne est le paramètre formel de la fonction anonyme 
+	// => aussi une variable locale
+	var compteur_interne=0; // var locale 
+	return {
+		trace : function(s){
+			if (++compteur_interne<=max_interne) trace(s);
+		}, 
+		reset : function(){compteur_interne=0;},
+		getCompteur : function(){return compteur_interne;},
+		setCompteur : function(value){compteur_interne = value;},
+		getMax : function(){return max_interne;},
+		setMax : function(value){max_interne = value;}
+	}; 
+}) (5); 
+
+
+function mkoDbg(max_interne) {
+	// max_interne est le paramètre formel de la fonction anonyme 
+	// => aussi une variable locale
+	var compteur_interne=0; // var locale 
+	return {
+		trace : function(s){
+			if (++compteur_interne<=max_interne) trace(s);
+		}, 
+		reset : function(){compteur_interne=0;},
+		getCompteur : function(){return compteur_interne;},
+		setCompteur : function(value){compteur_interne = value;},
+		getMax : function(){return max_interne;},
+		setMax : function(value){max_interne = value;}
+	}; 
+}
+
+oDg2 =  mkoDbg(5); 
+oDg3 =  mkoDbg(2); // à tester...
+
+
+oDbg.trace("message3");  // affiche "message"
+oDbg.trace("message3");  // affiche "message"
+oDbg.trace("message3");  // affiche "message"
 trace(oDbg.getCompteur());	// affiche la valeur du compteur
-oDbg.trace("message");  // affiche "message"
-oDbg.trace("message");  // affiche "message"
-oDbg.trace("message");  // n'affiche plus rien 
+oDbg.trace("message3");  // affiche "message"
+oDbg.trace("message3");  // affiche "message"
+oDbg.trace("message3");  // n'affiche plus rien 
 trace(oDbg.getCompteur());	// affiche la valeur du compteur
 oDbg.reset();									// remettre à zéro le compteur
-oDbg.trace("message");  // affiche "message"
+trace(oDbg.getCompteur());
+trace(oDbg.getMax());
+oDbg.setMax(2);
+trace(oDbg.getMax());
+oDbg.trace("message3");  // affiche "message"
+oDbg.trace("message3");  // affiche "message"
+oDbg.trace("message3");  // affiche "message"
 
 function show(refOrId,display) {
 	// affiche l'élément dont la référence ou l'id est fourni
