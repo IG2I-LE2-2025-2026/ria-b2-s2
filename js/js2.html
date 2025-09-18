@@ -75,14 +75,34 @@ function oBoucle(oConfig) {
 	// TODO : rendre TOUS les arguments optionnels !! 
 	// => on passe un objet de configuration en paramètre
 	
-	var oParams = oDefault; // ceci n'est pas une copie !! 
+	// var oParams = oDefault; // ceci n'est pas une copie !! 
 	// c'est une prise de référence !! 
 	// => les comportements sont sauvegardés dans une unique variable oDefault
-
 	
+	// SOLUTION : cloner 
+	// https://fdu-blog.medium.com/js-cloner-un-objet-612bcc444fd6 
+	// Object.assign()
+	// La méthode Object.assign() est utilisée afin de copier les valeurs de toutes les propriétés directes (non héritées) d’un objet qui sont énumérables sur un autre objet cible. Cette méthode renvoie l’objet cible. — Developer Mozilla
+	// clonage superficiel : fabrique un nouvel ayant les mêmes propriétés qu'un autre mais qui n'est pas une référence vers cet autre
+	// PB : si parmi les valeurs, il y a des références, on copie les références !
+	 
+	// clonage profond : seulement pour des objets ne comportant pas de fonctions
+	// JSON.parse(JSON.stringify(obj))
+	
+	// jquery .clone 
+	
+	// TODO : enrichir(oDef,oModif)
+	// effectue un clonage superficiel de oDef 
+	// ET un enrichissement en exploitant les données de oModif  
+	// => Faire une fonction générique à l'aide de la structure for ( in ) 
+
+	/*
 	if (oConfig.periode != undefined) oParams.periode = oConfig.periode;
 	if (oConfig.traiter != undefined) oParams.traiter = oConfig.traiter;
 	if (oConfig.poursuivre != undefined) oParams.poursuivre = oConfig.poursuivre;
+	*/
+	
+	var oParams = enrichir(oDefault,oConfig);
 	
 	var foo = function() {
 		// permet d'enfermer dans son scope les variables locales de oBoucle
