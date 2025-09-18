@@ -2,6 +2,7 @@
 
 <script>
 
+/*
 var periode; 
 var fn1; 
 var fn2; 
@@ -23,11 +24,7 @@ function boucle(iPeriode,fnCbTraitement,fnCbContinuer) {
 		fn1();
 		window.setTimeout(boucle, periode*1000); 
 	}
-	
-	
-	
-	
-	
+
 	// Utiliser obligatoirement window.setTimeout
 	// setTimeout(functionRef, delay)
 	// Interdiction d'utiliser les arguments optionnels de window.setTimeout
@@ -39,6 +36,39 @@ function boucle(iPeriode,fnCbTraitement,fnCbContinuer) {
 	// rendre le 3ème argument optionnel
 
 }
+*/
+
+function boucle(iPeriode,fnCbTraitement,fnCbContinuer) {
+	// supprimer les var. globales 
+	// rendre le 3ème argument optionnel 
+	// TODO : rendre TOUS les arguments optionnels !! 
+	// => on passe un objet de configuration en paramètre
+	// {periode:, traiter:, poursuivre:}
+	// {}
+	// {traiter:}
+	// {poursuivre:, periode:}
+	
+	var foo = function() {
+		// permet d'enfermer dans son scope les variables locales de boucle
+		// Elle a accès aux paramètres formels de boucle !
+		
+		if (
+					(fnCbContinuer == undefined) 
+				|| fnCbContinuer()
+			) {
+			fnCbTraitement();
+			window.setTimeout(foo, iPeriode*1000); 
+		}
+	}; 
+	
+	foo();
+}
+
+
+var compteur2=0; 
+function traiter2() {
+	console.log("compteur2:" + compteur2++); 
+}
 var compteur=0; 
 function traiter() {
 	console.log("compteur:" + compteur++); 
@@ -49,6 +79,7 @@ function continuer() {
 }
 
 boucle(5,traiter,continuer); 
+boucle(2,traiter2); 
 
 </script>
 </head>
