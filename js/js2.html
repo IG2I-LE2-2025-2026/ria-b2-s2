@@ -2,10 +2,35 @@
 
 <script>
 
+var periode; 
+var fn1; 
+var fn2; 
+
 function boucle(iPeriode,fnCbTraitement,fnCbContinuer) {
 	// Objectif : déclencher un appel à la fonction fnCbTraitement
 	// toutes les iPeriode secondes, 
 	// tant que fnCbContinuer renvoie vrai
+	// TODO : supprimer les var. globales 
+	// EN + : rendre le 3ème argument optionnel 
+	
+	if (iPeriode != undefined) {
+		periode = iPeriode; 
+		fn1 = fnCbTraitement; 
+		fn2 = fnCbContinuer; 
+	}
+	
+	if (fn2()) {
+		fn1();
+		window.setTimeout(boucle, periode*1000); 
+	}
+	
+	
+	
+	
+	
+	// Utiliser obligatoirement window.setTimeout
+	// setTimeout(functionRef, delay)
+	// Interdiction d'utiliser les arguments optionnels de window.setTimeout
 
 	// fnCbTraitement est une fonction de rappel ("CALLBACK")
 	// elle sera appelée plus tard
@@ -14,6 +39,17 @@ function boucle(iPeriode,fnCbTraitement,fnCbContinuer) {
 	// rendre le 3ème argument optionnel
 
 }
+var compteur=0; 
+function traiter() {
+	console.log("compteur:" + compteur++); 
+}
+function continuer() {
+	if (compteur <5) return true; 
+	else return false; 
+}
+
+boucle(5,traiter,continuer); 
+
 </script>
 </head>
 <body>
