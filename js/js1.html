@@ -2,15 +2,51 @@
 
 function trace(s) {
 	// que fait cette fonction ?
+	// équivalent à if (window.console) console.log(s);
 	window.console && console.log(s);
 }
 
+var compteur = 0; 
+var max = 5; 
 function debug(s) {
 	// affiche un nombre de messages limité par un compteur
 	// affiche le compteur si s n'est pas fourni
-	// e.g. après 10 affichages, la fonction ne fait plus rien 
-	// comment remettre à 0 le compteur ?   
+	// e.g. après 5 affichages, la fonction ne fait plus rien 
+	// comment remettre à 0 le compteur ? 
+	if (s == undefined) {
+		trace("compteur :" + compteur); 
+		return; 
+	}  
+	if (++compteur<=max) trace(s); 
 }
+
+// Bonne pratique : Approche TDD 
+// "Test Driven Development" 
+
+debug("message");  // affiche "message"
+debug("message");  // affiche "message"
+debug("message");  // affiche "message"
+debug();					 // affiche la valeur du compteur
+debug("message");  // affiche "message"
+debug("message");  // affiche "message"
+debug("message");  // n'affiche plus rien 
+debug();					 // affiche la valeur du compteur
+// trouver une solution pour remettre à zéro le compteur ?? 
+compteur=0;
+// DANGER !! la variable est "publique" car globale
+// On aimerait la rendre "privée"
+// en C, on pourrait utiliser une variable statique
+// en JS : on va utiliser une "closure"
+// en français : "fermeture" 
+// consiste à 'enfermer' l'accès à une variable 
+// en gardant une référence vers cette variable 
+// dans le scope d'une fonction 
+// SOLUTION : créer un nouveau scope 
+// i.e. créer une nouvelle fonction 
+// TODO : faire debug2() qui fonctionne SANS variable globale 
+// Cf. exemple du cours sur les closures
+debug("message");  // affiche "message"
+
 
 function show(refOrId,display) {
 	// affiche l'élément dont la référence ou l'id est fourni
