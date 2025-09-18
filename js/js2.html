@@ -71,6 +71,23 @@ var oDefault = {
 	poursuivre: function(){return true;}
 }; 
 
+function enrichir(oDef,oModif) {
+	// produit un nouvel objet différent de oDef et oModif
+	// ayant la même structure que oDef 
+	// avec des valeurs de oModif 
+	// (et celles de oDef quand oModif ne les précise pas)
+	
+	var oRes = {}; 
+	for (prop in oDef) {
+		if ((oModif != undefined) && (oModif[prop] != undefined))
+			oRes[prop] = oModif[prop]; 
+		else 
+			oRes[prop] = oDef[prop]; 
+	}
+	
+	return oRes; 
+}
+
 function oBoucle(oConfig) {
 	// TODO : rendre TOUS les arguments optionnels !! 
 	// => on passe un objet de configuration en paramètre
@@ -86,8 +103,10 @@ function oBoucle(oConfig) {
 	// clonage superficiel : fabrique un nouvel ayant les mêmes propriétés qu'un autre mais qui n'est pas une référence vers cet autre
 	// PB : si parmi les valeurs, il y a des références, on copie les références !
 	 
-	// clonage profond : seulement pour des objets ne comportant pas de fonctions
+	// clonage profond : 
+	
 	// JSON.parse(JSON.stringify(obj))
+	// seulement pour des objets ne comportant pas de fonctions
 	
 	// jquery .clone 
 	
@@ -136,6 +155,7 @@ boucle(2,traiter2);
 oBoucle({"periode":2, "traiter":traiter, "poursuivre":continuer});
 oBoucle({});
 oBoucle({"traiter":traiter});
+oBoucle();
 	// {poursuivre:, periode:}
 	
 	
