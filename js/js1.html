@@ -47,6 +47,69 @@ compteur=0;
 // Cf. exemple du cours sur les closures
 debug("message");  // affiche "message"
 
+// (function(){}) () permet de créer une fonction anonyme 
+// et de l'appeler immédiatement 
+// on aurait pu nommer la fonction mkDebug()
+// et écrire debug2 = mkDebug(); 
+
+debug2 = (function () {
+	var compteur_interne=0; 
+	var max_interne=5; 
+	return function(s, reset) {
+		/* 
+		if (s=="reset") {
+			// merdique car on ne peut plus écrire "reset"
+			compteur_interne = 0;
+			return; 
+		}
+		*/
+		if (reset != undefined) {
+			// On affiche TOUJOURS s 
+			trace(s);
+			// et on réinitialise le compteur 
+			compteur_interne = 0;
+			return;
+		}
+		
+		if (s == undefined) {
+			trace("compteur :" + compteur_interne); 
+			return; 
+		}  
+		if (++compteur_interne<=max_interne) trace(s);
+	}
+}) (); 
+
+
+debug2("message2");  // affiche "message"
+debug2("message2");  // affiche "message"
+debug2("message2");  // affiche "message"
+debug2();					 // affiche la valeur du compteur
+debug2("message2");  // affiche "message"
+debug2("message2");  // affiche "message"
+debug2("message2");  // n'affiche plus rien 
+debug2();					 // affiche la valeur du compteur
+// trouver une solution pour remettre à zéro le compteur ?? 
+compteur_interne = 0; // ne marche plus ! 
+// il faut intégrer le mécanisme de réinitialisation
+// DANS la fonction qui est SEULE 
+// à avoir accès au compteur interne !
+debug2("reinitialisation",true);	
+debug2();
+debug2("message2");  // affiche "message"
+
+// Mieux encore : un objet oDbg offrant les methodes .trace() .reset() ...
+
+oDbg.trace("message");  // affiche "message"
+oDbg.trace("message");  // affiche "message"
+oDbg.trace("message");  // affiche "message"
+oDbg.trace("message");  // affiche "message"
+trace(oDbg.getCompteur());	// affiche la valeur du compteur
+oDbg.trace("message");  // affiche "message"
+oDbg.trace("message");  // affiche "message"
+oDbg.trace("message");  // n'affiche plus rien 
+trace(oDbg.getCompteur());	// affiche la valeur du compteur
+oDbg.reset();									// remettre à zéro le compteur
+oDbg.trace("message");  // affiche "message"
 
 function show(refOrId,display) {
 	// affiche l'élément dont la référence ou l'id est fourni
