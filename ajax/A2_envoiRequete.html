@@ -15,8 +15,8 @@ function envoiRequete(type,url,donnees,callback)
 	{
 		request.open("POST", url, true);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		request.setRequestHeader("Content-length", donnees.length);
-		request.setRequestHeader("Connection", "close");
+		//request.setRequestHeader("Content-length", donnees.length);
+		//request.setRequestHeader("Connection", "close");
 	}
 
 	request.onreadystatechange = callback;
@@ -30,7 +30,8 @@ function traiteReponse()
 	{
 	    if (request.status == 200) 
 	    {
-			reponse = request.responseText;
+				// à inscrire dans le div "reponse" : 
+				document.getElementById("reponse").innerHTML = request.responseText;
 	    }
 	}
 } 
@@ -38,15 +39,19 @@ function traiteReponse()
 function envoyer(refBtn)
 {
 	var refCle = document.getElementById("cle");
-	var type;
+	var type = (refBtn.value == "envoi GET") ? "GET" : "POST"; 
+		// "GET" ou "POST"
+
+	var donnees = "cle=" + refCle.value ; 
+	envoiRequete(type,"A2_data.php",donnees,traiteReponse); 
 
 }
 
 </script>
 
 <input type="text" id="cle"/>
-<input type="button" value="envoi GET"/>
-<input type="button" value="envoi POST"/>
+<input type="button" value="envoi GET" onclick="envoyer(this)" />
+<input type="button" value="envoi POST" onclick="envoyer(this)" />
 
 <div id="reponse">
 </div>

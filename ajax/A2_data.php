@@ -1,7 +1,7 @@
 <?php
 
-$salles = array("Isabelle"=>"B7-104","Thomas"=>"C118");
-$noms = array("Isabelle"=>"Le-Glaz","Thomas"=>"Bourdeaud'huy");
+$salles = array("Maxime"=>"202","Thomas"=>"206");
+$noms = array("Maxime"=>"Folschette","Thomas"=>"Bourdeaud'huy");
 
 if ((isset($_GET["cle"]) && isset($noms[$_GET["cle"]])))
 {
