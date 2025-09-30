@@ -1,0 +1,55 @@
+<script type="text/javascript" src="ajax.js"></script>
+
+<script type="text/javascript">
+
+
+function envoyer(refBtn) {
+	var refCle = document.getElementById("cle");
+	ajax("A2_data.php", {
+		data: {"cle":refCle.value}, 
+		type : (refBtn.value == "envoi GET") ? "GET" : "POST", 
+		callback : function(rep){
+			document.getElementById("reponse").innerHTML = rep; 
+		}
+	}); 
+	
+	ajax({	url : "A2_data.php",
+					data: {"cle":refCle.value}, 
+					type : (refBtn.value == "envoi GET") ? "GET" : "POST", 
+					//callback : function(rep){
+					//	document.getElementById("reponse").innerHTML = rep; 
+					//}
+				}); 
+
+}
+
+</script>
+
+<input type="text" id="cle"/>
+<input type="button" value="envoi GET" onclick="envoyer(this)" />
+<input type="button" value="envoi POST" onclick="envoyer(this)" />
+
+<div id="reponse">
+</div>
+
+<textarea cols="40" rows="10">
+Pour vous convaincre que c'est bien asynchrone, vous pouvez editer ce champ: il ne sera pas remis &agrave; jour !
+</textarea>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
