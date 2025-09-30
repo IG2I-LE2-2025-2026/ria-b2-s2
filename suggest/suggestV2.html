@@ -1,0 +1,60 @@
+<style>
+.composant {
+	display:inline-block;
+	width:200px;
+	position:relative; /*devient un repère*/
+}
+
+#saisie {
+	width:200px;height:20px;
+	border:1px solid black;
+}
+#imgLoad{
+	position:absolute; 
+	right:8px;
+	top:4px;
+}
+#suggestions {
+	background-color:white;
+	position:absolute; 
+	top:20px;
+	width:200px;
+}
+
+#suggestions div {
+	padding:3px;
+}
+#suggestions div:hover {
+	border:1px black dashed;
+	background-color:lightgrey;
+}
+</style>
+<script src="js/utils.js"></script> 
+<script src="js/ajax.js"></script> 
+<script>
+	var version = 2; 
+	// TODO : interactions 
+</script>
+
+<!-- suggest V1.html --> 
+
+<body onkeydown="annuler(event);">
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eros mauris, tincidunt non nisi sed, dignissim eleifend quam. Phasellus sed nisi ultricies leo lacinia viverra. Sed a volutpat dui. Fusce quis posuere lorem, sit amet sollicitudin arcu. Etiam at velit tempus, fermentum est nec, condimentum magna. Vivamus non elit dictum, pellentesque magna non, placerat velit. 
+
+
+<div class="composant">
+	<input type="text" value="Th" id="saisie" onkeyup="saisir(this);"/>
+	<img src="ressources/ajaxLoader2.gif" id="imgLoad" />
+	<div id="suggestions" onclick="choisir(event);">
+		<div>Thibault</div>
+		<div>Thimothée</div>
+		<div>Thomas</div>
+	</div>
+</div>
+
+Proin porttitor odio vel dui ultrices, at tristique odio cursus. Fusce elementum cursus metus, eget sodales dolor elementum eu. Suspendisse id hendrerit lorem. Sed vitae mauris posuere, venenatis eros a, porta sapien. Nulla vitae ultrices risus. In sed accumsan ex, at sollicitudin metus.
+
+Nam laoreet cursus nisl ac faucibus. Suspendisse potenti. Sed enim neque, dictum egestas risus ac, interdum luctus lorem. Donec auctor nisi nec consequat condimentum. Phasellus justo massa, blandit ac libero vitae, faucibus eleifend dolor. Proin ut lectus euismod, sollicitudin elit hendrerit, bibendum justo. Quisque vulputate, augue at facilisis viverra, dui urna blandit turpis, ut dictum urna ipsum quis purus. Sed rhoncus maximus erat, vel porta erat elementum venenatis. Praesent tempor euismod elit. Curabitur pulvinar, enim et vehicula consectetur, tortor lorem fringilla neque, sit amet molestie erat eros et ante. Sed a imperdiet neque, non imperdiet ligula. In euismod hendrerit lorem vel imperdiet. Aliquam molestie ornare magna, nec tempus eros tempus sed. Fusce ultrices, diam quis interdum dapibus, nunc dui congue ex, eget hendrerit nunc dui nec nunc.
+
+</body>
