@@ -10,6 +10,7 @@
 	border:1px solid black;
 }
 #imgLoad{
+	display:none;
 	position:absolute; 
 	right:8px;
 	top:4px;
@@ -27,6 +28,7 @@
 #suggestions div:hover {
 	border:1px black dashed;
 	background-color:lightgrey;
+	cursor:pointer;
 }
 </style>
 <script src="js/utils.js"></script> 
@@ -34,6 +36,43 @@
 <script>
 	var version = 2; 
 	// TODO : interactions 
+	
+	function annuler(contexte) {
+		if (contexte.key =="Escape") 		
+			hide("suggestions");
+			hide("imgLoad");
+			// TODO : annuler la requete AJAX en cours s'il y en a une 
+	}
+	function choisir(contexte) {
+		// récupérer suggestion cliquée 
+		// l'afficher dans le champ de form. 
+		if (contexte.target.id != "suggestions") {
+			val("saisie",html(contexte.target));
+			hide("suggestions");
+			hide("imgLoad");
+		}
+	}
+	function saisir(refSaisie){
+		// récupérer le texte saisi 
+		var txt = val(refSaisie); 
+		// cacher les précédentes suggestions
+		hide("suggestions");
+		
+		// Si le texte saisi n'est pas vide 
+		if (txt != "") {
+			show("imgLoad"); 
+			// afficher l'image de chargement
+			ajax("fixture.php", {
+				// data à envoyer ! 
+				callback : integrer
+			}); 
+			// déclencher une requete AJAX 
+	 	}
+	}
+	
+function integrer(repDuServeur) {
+	console.log(repDuServeur); 
+}
 </script>
 
 <!-- suggest V1.html --> 
@@ -44,12 +83,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eros mauris, tinc
 
 
 <div class="composant">
-	<input type="text" value="Th" id="saisie" onkeyup="saisir(this);"/>
+	<input type="text" value="" id="saisie" onkeyup="saisir(this);"/>
 	<img src="ressources/ajaxLoader2.gif" id="imgLoad" />
 	<div id="suggestions" onclick="choisir(event);">
-		<div>Thibault</div>
-		<div>Thimothée</div>
-		<div>Thomas</div>
 	</div>
 </div>
 
