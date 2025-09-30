@@ -38,10 +38,12 @@
 	// TODO : interactions 
 	
 	function annuler(contexte) {
-		if (contexte.key =="Escape") 		
+		if (contexte.key =="Escape") {		
 			hide("suggestions");
 			hide("imgLoad");
+			val("saisie","");
 			// TODO : annuler la requete AJAX en cours s'il y en a une 
+		}
 	}
 	function choisir(contexte) {
 		// récupérer suggestion cliquée 
@@ -60,18 +62,23 @@
 		
 		// Si le texte saisi n'est pas vide 
 		if (txt != "") {
-			show("imgLoad"); 
 			// afficher l'image de chargement
+			show("imgLoad"); 
+			
+			// déclencher une requete AJAX
 			ajax("fixture.php", {
-				// data à envoyer ! 
+				// data : à envoyer ! 
 				callback : integrer
-			}); 
-			// déclencher une requete AJAX 
+			});  
 	 	}
 	}
 	
 function integrer(repDuServeur) {
+	// couche intégration 
 	console.log(repDuServeur); 
+	html("suggestions",repDuServeur);
+	show("suggestions");
+	hide("imgLoad");
 }
 </script>
 
