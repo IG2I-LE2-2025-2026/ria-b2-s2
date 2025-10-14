@@ -1,0 +1,43 @@
+
+<head>
+
+<script
+  src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+  integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+  crossorigin="anonymous"></script>
+
+<style>
+  .allume {
+    background-color: yellow;
+  }
+  
+  .exemple {
+    display: none;
+  }
+</style>
+
+<script>
+function allume() {
+  $(".exemple").addClass("allume").show("slow");
+}
+</script>
+</head>
+
+<body>
+
+<h1 class="exemple">Un titre</h1>
+
+<p>Un paragraphe</p>
+<p class="exemple">Le paragraphe 2</p>
+<p>Le paragraphe 3 !</p>
+
+<div class="exemple">
+<p>Un paragraphe dans la div</p>
+<p>Le paragraphe 2</p>
+<p>Le paragraphe 3 !</p>
+</div>
+
+<input type="button" value="Allumer" onclick="allume();" />
+
+</body>
+
