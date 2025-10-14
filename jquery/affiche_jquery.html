@@ -19,24 +19,34 @@
 <script>
   var compteur = 1;
   
+  $(document).ready(function () {
+    // Au chargement de la page...
+    $(".btnAfficherCacher").click(afficher_cacher);
+    $(".btnAjoutParagraphe").click(ajout_paragraphe);
+  });
+  
   // Afficher/cacher la div #contenu
   function afficher_cacher() {
     console.log("Fonction afficher_cacher");
     if ($("#contenu:hidden").length === 0) {
       $("#contenu").hide();
-      $(".btnAfficheCacher").val("Afficher");
+      $(".btnAfficherCacher").val("Afficher");
     } else {
       $("#contenu").show();
-      $(".btnAfficheCacher").val("Cacher");
+      $(".btnAfficherCacher").val("Cacher");
     }
   }
   
   // Ajouter un paragraphe dans le #contenu
-  function ajout_paragraphe(position) {
+  function ajout_paragraphe(event) {
+    // Les fonctions appelées par JQuery sont toujours destinatrices de l'objet event
     console.log("Fonction ajout_paragraphe");
+    console.log(event);
     var par = $("<p>");
     par.html("Nouveau paragraphe " + (compteur++));
-    if (position === 'haut') {
+    // On compare le bouton qui a effectué l'événement (event.target) au premier bouton « + » : si ce sont les mêmes, alors on a cliqué sur le premier bouton
+    // $(event.target) traduit cet objet en objet JQuery
+    if ($(event.target).is(".btnAjoutParagraphe:first")) {
       $("#contenu").prepend(par);
     } else {
       $("#contenu").append(par);
@@ -50,9 +60,9 @@
 
 <h1>Page d'exercices Jquery</h1>
 
-<input class="btnAfficheCacher" type="button" value="Cacher" onclick="afficher_cacher();" />
+<input class="btnAfficherCacher" type="button" value="Cacher" />
 
-<input class="btnAjoutParagraphe" type="button" value="+" onclick="ajout_paragraphe('haut');" />
+<input class="btnAjoutParagraphe" type="button" value="+" />
 
 <div id="contenu">
   <p>Ceci est un contenu intéressant mais volumineux</p>
@@ -68,9 +78,9 @@
 <div>
 </div>
 
-<input class="btnAfficheCacher" type="button" value="Cacher" onclick="afficher_cacher();" />
+<input class="btnAfficherCacher" type="button" value="Cacher" />
 
-<input class="btnAjoutParagraphe" type="button" value="+" onclick="ajout_paragraphe('bas');" />
+<input class="btnAjoutParagraphe" type="button" value="+" />
 
 <p>Copyright moi</p>
 
