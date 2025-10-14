@@ -36,14 +36,16 @@
 <script src="js/ajax.js"></script> 
 <script>
 	var version = 2; 
-	// TODO : interactions 
+	var requete_suggest;
 	
 	function annuler(contexte) {
+	  console.log(requete_suggest);
 		if (contexte.key =="Escape") {		
 			hide("suggestions");
 			hide("imgLoad");
 			val("saisie","");
-			// TODO : annuler la requete AJAX en cours s'il y en a une 
+			// Annuler la requete AJAX en cours s'il y en a une 
+			requete_suggest.abort();
 		}
 	}
 	function choisir(contexte) {
@@ -61,13 +63,24 @@
 		// cacher les précédentes suggestions
 		hide("suggestions");
 		
+		// Si plus de texte : on annule la requête AJAX
+		if (txt === "" && requete_suggest !== undefined) {
+		  requete_suggest.abort();
+			hide("imgLoad");
+	  }
+
 		// Si le texte saisi n'est pas vide 
 		if (txt != "") {
 			// afficher l'image de chargement
 			show("imgLoad"); 
 			
+			// Annuler la requête AJAX précédente
+			if (requete_suggest !== undefined) {
+			  requete_suggest.abort();
+		  }
+			
 			// déclencher une requete AJAX
-			ajax("data.php", {
+			requete_suggest = ajax("data.php", {
 				// data : à envoyer ! 
 				callback : integrer,
 				data : { "debutNom": val("saisie") }

@@ -1,4 +1,5 @@
 <?php
+sleep(2);
 if (isset($_GET["debutNom"])) 
 {
   $cherche = html_entity_decode($_GET["debutNom"],
