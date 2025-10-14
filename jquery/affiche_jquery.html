@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta charset="UTF-8">
+<title>Exercice affichage Jquery</title>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+  integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+  crossorigin="anonymous"></script>
+
+<style>
+  #contenu {
+    border: 1px solid gray;
+    padding: 1em;
+  }
+</style>
+
+<script>
+  // TODO
+  var div_affichee = true;
+  
+  function afficher_cacher() {
+    console.log("Fonction afficher_cacher");
+    if (div_affichee) {
+      $("#contenu").hide();
+      div_affichee = false;
+    } else {
+      $("#contenu").show();
+      div_affichee = true;
+    }
+  }
+</script>
+
+</head>
+
+<body>
+
+<h1>Page d'exercices Jquery</h1>
+
+<input type="button" value="Afficher/cacher" onclick="afficher_cacher();" />
+
+<div id="contenu">
+  <p>Ceci est un contenu intéressant mais volumineux</p>
+  <ul>
+    <li>Avec une liste</li>
+    <li>Contenant beaucoup</li>
+    <li>Contenant d'éléments</li>
+  </ul>
+  <img alt="Logo de Wikipédia" src="https://fr.wikipedia.org/static/images/icons/wikipedia.png" />
+  <p>Et même une image</p>
+</div>
+
+<p>Copyright moi</p>
+
+</body>
+</html> 
