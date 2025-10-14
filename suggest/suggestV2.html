@@ -1,107 +1,123 @@
 <style>
 .composant {
-	display:inline-block;
-	width:200px;
-	position:relative; /*devient un repère*/
+  display:inline-block;
+  width:200px;
+  position:relative; /*devient un repère*/
 }
 
 #saisie {
-	width:200px;height:20px;
-	border:1px solid black;
+  width:200px;height:20px;
+  border:1px solid black;
 }
 #imgLoad{
-	display:none;
-	position:absolute; 
-	right:8px;
-	top:4px;
+  display:none;
+  position:absolute; 
+  right:8px;
+  top:4px;
 }
 #suggestions {
-	background-color:lightgray;
-	position:absolute; 
-	top:20px;
-	width:200px;
+  background-color:lightgray;
+  position:absolute; 
+  top:20px;
+  width:200px;
 }
 
 #suggestions div {
-	padding:3px;
+  padding:3px;
 }
 #suggestions div:hover {
-	border:1px black dashed;
-	background-color:black;
-	color: lightgray;
-	cursor:pointer;
+  border:1px black dashed;
+  background-color:black;
+  color: lightgray;
+  cursor:pointer;
 }
 </style>
 <script src="js/utils.js"></script> 
 <script src="js/ajax.js"></script> 
 <script>
-	var version = 2; 
-	var requete_suggest;
-	
-	function annuler(contexte) {
-	  console.log(requete_suggest);
-		if (contexte.key =="Escape") {		
-			hide("suggestions");
-			hide("imgLoad");
-			val("saisie","");
-			// Annuler la requete AJAX en cours s'il y en a une 
-			requete_suggest.abort();
-		}
-	}
-	function choisir(contexte) {
-		// récupérer suggestion cliquée 
-		// l'afficher dans le champ de form. 
-		if (contexte.target.id != "suggestions") {
-			val("saisie",html(contexte.target));
-			hide("suggestions");
-			hide("imgLoad");
-		}
-	}
-	function saisir(refSaisie){
-		// récupérer le texte saisi 
-		var txt = val(refSaisie); 
-		// cacher les précédentes suggestions
-		hide("suggestions");
-		
-		// Si plus de texte : on annule la requête AJAX
-		if (txt === "" && requete_suggest !== undefined) {
-		  requete_suggest.abort();
-			hide("imgLoad");
-	  }
+  var version = 2;
+  
+  // Objet contenant la dernière requête AJAX envoyée
+  var requete_suggest;
+  
+  // Mise en cache des requêtes AJAX de suggestions
+  var cache_suggest = {};
+  
+  function annuler(contexte) {
+    console.log(requete_suggest);
+    if (contexte.key =="Escape") {    
+      hide("suggestions");
+      hide("imgLoad");
+      val("saisie","");
+      // Annuler la requete AJAX en cours s'il y en a une 
+      requete_suggest.abort();
+    }
+  }
+  function choisir(contexte) {
+    // récupérer suggestion cliquée 
+    // l'afficher dans le champ de form. 
+    if (contexte.target.id != "suggestions") {
+      val("saisie",html(contexte.target));
+      hide("suggestions");
+      hide("imgLoad");
+    }
+  }
+  function saisir(refSaisie){
+    // récupérer le texte saisi 
+    var txt = val(refSaisie); 
+    // cacher les précédentes suggestions
+    hide("suggestions");
+    
+    // Si plus de texte : on annule la requête AJAX
+    if (txt === "" && requete_suggest !== undefined) {
+      requete_suggest.abort();
+      hide("imgLoad");
+    }
 
-		// Si le texte saisi n'est pas vide 
-		if (txt != "") {
-			// afficher l'image de chargement
-			show("imgLoad"); 
-			
-			// Annuler la requête AJAX précédente
-			if (requete_suggest !== undefined) {
-			  requete_suggest.abort();
-		  }
-			
-			// déclencher une requete AJAX
-			requete_suggest = ajax("data.php", {
-				// data : à envoyer ! 
-				callback : integrer,
-				data : { "debutNom": val("saisie") }
-			});  
-	 	}
-	}
-	
+    // Si le texte saisi n'est pas vide 
+    if (txt != "") {
+      // afficher l'image de chargement
+      show("imgLoad"); 
+      
+      // Annuler la requête AJAX précédente
+      if (requete_suggest !== undefined) {
+        requete_suggest.abort();
+      }
+      
+      // déclencher une requete AJAX
+      if (cache_suggest[val("saisie")] !== undefined) {
+        integrer(cache_suggest[val("saisie")]);
+      } else {
+        requete_suggest = ajax("data.php", {
+          // data : à envoyer ! 
+          callback : integrer,
+          data : { "debutNom": val("saisie") }
+        });
+      }
+    }
+  }
+  
 function integrer(repDuServeur) {
-	// couche intégration 
-	console.log(repDuServeur); 
-	console.log(JSON.parse(repDuServeur));
-	var strRep = '';
-	repDuServeur = JSON.parse(repDuServeur);
-	for (var i in repDuServeur.suggestions) {
-	  var sugg = repDuServeur.suggestions[i];
-	  strRep += '<div>' + sugg.nom + ' ' +
-	                      sugg.prenom + '</div>\n';
-	}
-	html("suggestions", strRep);
-	show("suggestions");
-	hide("imgLoad");
+  // couche intégration 
+  console.log(repDuServeur); 
+  var strRep = '';
+  if (typeof repDuServeur === 'string') {
+    repDuServeur = JSON.parse(repDuServeur);
+  }
+  
+  // Remplir le cache avec la nouvelle réponse
+  cache_suggest[repDuServeur.recherche] = repDuServeur;
+  // FIXME : Le cache ne devrait pas distinguer majuscule/minuscules dans la recherche
+  
+  // Intégrer la réponse dans la page
+  for (var i in repDuServeur.suggestions) {
+    var sugg = repDuServeur.suggestions[i];
+    strRep += '<div>' + sugg.nom + ' ' +
+                        sugg.prenom + '</div>\n';
+  }
+  html("suggestions", strRep);
+  show("suggestions");
+  hide("imgLoad");
 }
 </script>
 
@@ -111,10 +127,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eros mauris, tinc
 
 
 <div class="composant">
-	<input type="text" value="" id="saisie" onkeyup="saisir(this);"/>
-	<img src="ressources/ajaxLoader2.gif" id="imgLoad" />
-	<div id="suggestions" onclick="choisir(event);">
-	</div>
+  <input type="text" value="" id="saisie" onkeyup="saisir(this);"/>
+  <img src="ressources/ajaxLoader2.gif" id="imgLoad" />
+  <div id="suggestions" onclick="choisir(event);">
+  </div>
 </div>
 
 Proin porttitor odio vel dui ultrices, at tristique odio cursus. Fusce elementum cursus metus, eget sodales dolor elementum eu. Suspendisse id hendrerit lorem. Sed vitae mauris posuere, venenatis eros a, porta sapien. Nulla vitae ultrices risus. In sed accumsan ex, at sollicitudin metus.
