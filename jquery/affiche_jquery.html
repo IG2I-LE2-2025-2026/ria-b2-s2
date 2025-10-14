@@ -20,17 +20,11 @@
   // Afficher/cacher la div #contenu
   function afficher_cacher() {
     console.log("Fonction afficher_cacher");
-    /*
     if ($("#contenu:hidden").length === 0) {
       $("#contenu").hide();
-    } else {
-      $("#contenu").show();
-    }
-    */
-    $("#contenu").toggle();
-    if ($(".btnAfficheCacher[value=Cacher]").length === 1) {
       $(".btnAfficheCacher").val("Afficher");
     } else {
+      $("#contenu").show();
       $(".btnAfficheCacher").val("Cacher");
     }
   }
