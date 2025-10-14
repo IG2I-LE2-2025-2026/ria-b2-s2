@@ -17,17 +17,13 @@
 </style>
 
 <script>
-  // TODO
-  var div_affichee = true;
-  
+  // Afficher/cacher la div #contenu
   function afficher_cacher() {
     console.log("Fonction afficher_cacher");
-    if (div_affichee) {
+    if ($("#contenu:hidden").length === 0) {
       $("#contenu").hide();
-      div_affichee = false;
     } else {
       $("#contenu").show();
-      div_affichee = true;
     }
   }
 </script>
