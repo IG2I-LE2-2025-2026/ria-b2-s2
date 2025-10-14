@@ -14,13 +14,11 @@
     border: 1px solid gray;
     padding: 1em;
   }
-  
-  .btnAfficheCacher {
-    display: block;
-  }
 </style>
 
 <script>
+  var compteur = 1;
+  
   // Afficher/cacher la div #contenu
   function afficher_cacher() {
     console.log("Fonction afficher_cacher");
@@ -30,6 +28,18 @@
     } else {
       $("#contenu").show();
       $(".btnAfficheCacher").val("Cacher");
+    }
+  }
+  
+  // Ajouter un paragraphe dans le #contenu
+  function ajout_paragraphe(position) {
+    console.log("Fonction ajout_paragraphe");
+    var par = $("<p>");
+    par.html("Nouveau paragraphe " + (compteur++));
+    if (position === 'haut') {
+      $("#contenu").prepend(par);
+    } else {
+      $("#contenu").append(par);
     }
   }
 </script>
@@ -42,6 +52,8 @@
 
 <input class="btnAfficheCacher" type="button" value="Cacher" onclick="afficher_cacher();" />
 
+<input class="btnAjoutParagraphe" type="button" value="+" onclick="ajout_paragraphe('haut');" />
+
 <div id="contenu">
   <p>Ceci est un contenu intéressant mais volumineux</p>
   <ul>
@@ -53,7 +65,12 @@
   <p>Et même une image</p>
 </div>
 
+<div>
+</div>
+
 <input class="btnAfficheCacher" type="button" value="Cacher" onclick="afficher_cacher();" />
+
+<input class="btnAjoutParagraphe" type="button" value="+" onclick="ajout_paragraphe('bas');" />
 
 <p>Copyright moi</p>
 
