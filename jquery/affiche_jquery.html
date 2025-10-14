@@ -28,6 +28,11 @@
     }
     */
     $("#contenu").toggle();
+    if ($(".btnAfficheCacher[value=Cacher]").length === 1) {
+      $(".btnAfficheCacher").val("Afficher");
+    } else {
+      $(".btnAfficheCacher").val("Cacher");
+    }
   }
 </script>
 
@@ -37,7 +42,7 @@
 
 <h1>Page d'exercices Jquery</h1>
 
-<input type="button" value="Afficher/cacher" onclick="afficher_cacher();" />
+<input class="btnAfficheCacher" type="button" value="Cacher" onclick="afficher_cacher();" />
 
 <div id="contenu">
   <p>Ceci est un contenu intéressant mais volumineux</p>
