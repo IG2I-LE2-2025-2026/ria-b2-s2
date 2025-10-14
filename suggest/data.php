@@ -1,37 +1,28 @@
 <?php
-sleep(2);
-if (isset($_GET["debutNom"])) 
+//sleep(2);
+
+include_once "libs/maLibUtils.php";
+include_once "libs/maLibSQL.pdo.php";
+
+if ($cherche = valider("debutNom", "GET"))
 {
-  $cherche = html_entity_decode($_GET["debutNom"],
+  $cherche = html_entity_decode($cherche,
     ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401,
     "UTF-8"); 
   // FIXME : Problème de décocdage des caractères accentués
   
-  // On va ouvrir un fichier et afficher les lignes 
-  // où le prénom ou le nom contient ce texte
-
-  $tabLignes = file("LE2_2025_2026.csv");
-  $res = array();
-  foreach ($tabLignes as $ligne)
-  {
-    // EXO1 : effectuer une recherche sur nom ou prénom 
-    if (preg_match("/(^(.*):(" . $cherche . ".*):.*$)|" .
-                    "(^(" . $cherche . ".*):.*:.*$)/i",
-          $ligne,$tabResultats))
-    {
-      // EXO2 afficher nom ET prénom 
-      $tabResultats = explode(":", rtrim($ligne));
-      /*
-      echo "<div>" . $tabResultats[0] . " " .
-        $tabResultats[1] . "</div>";
-      */
-      $res[] = array("nom" => $tabResultats[0],
-                     "prenom" => $tabResultats[1],
-                     "id" => $tabResultats[2]);
-    }
-  }
+  $tabResultats = parcoursRs(SQLSelect("
+    SELECT
+      nom AS nom,
+      prenom AS prenom,
+      id AS id
+    FROM etudiants
+    WHERE prenom LIKE '$cherche%'
+       OR nom LIKE '$cherche%'
+    ORDER BY nom;
+  "));
   
-  echo json_encode($res);
+  echo json_encode($tabResultats);
   
   die("");
 }
