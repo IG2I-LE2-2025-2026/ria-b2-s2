@@ -16,7 +16,7 @@
 	top:4px;
 }
 #suggestions {
-	background-color:white;
+	background-color:lightgray;
 	position:absolute; 
 	top:20px;
 	width:200px;
@@ -27,7 +27,8 @@
 }
 #suggestions div:hover {
 	border:1px black dashed;
-	background-color:lightgrey;
+	background-color:black;
+	color: lightgray;
 	cursor:pointer;
 }
 </style>
@@ -77,7 +78,14 @@
 function integrer(repDuServeur) {
 	// couche intégration 
 	console.log(repDuServeur); 
-	html("suggestions",repDuServeur);
+	console.log(JSON.parse(repDuServeur));
+	var strRep = '';
+	repDuServeur = JSON.parse(repDuServeur);
+	for (var i in repDuServeur) {
+	  strRep += '<div>' + repDuServeur[i].nom + ' ' +
+	                      repDuServeur[i].prenom + '</div>\n';
+	}
+	html("suggestions", strRep);
 	show("suggestions");
 	hide("imgLoad");
 }
