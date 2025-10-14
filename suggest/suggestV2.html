@@ -94,17 +94,16 @@ function integrer(repDuServeur) {
 	console.log(JSON.parse(repDuServeur));
 	var strRep = '';
 	repDuServeur = JSON.parse(repDuServeur);
-	for (var i in repDuServeur) {
-	  strRep += '<div>' + repDuServeur[i].nom + ' ' +
-	                      repDuServeur[i].prenom + '</div>\n';
+	for (var i in repDuServeur.suggestions) {
+	  var sugg = repDuServeur.suggestions[i];
+	  strRep += '<div>' + sugg.nom + ' ' +
+	                      sugg.prenom + '</div>\n';
 	}
 	html("suggestions", strRep);
 	show("suggestions");
 	hide("imgLoad");
 }
 </script>
-
-<!-- suggest V1.html --> 
 
 <body onkeydown="annuler(event);">
 

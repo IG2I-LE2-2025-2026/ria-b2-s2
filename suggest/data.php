@@ -22,9 +22,22 @@ if ($cherche = valider("debutNom", "GET"))
     ORDER BY nom;
   "));
   
-  echo json_encode($tabResultats);
+  $tabFinal = array(
+    "suggestions" => $tabResultats,
+    "timestamp" => time(),
+    "date" => date("Y-m-d H:i:s"),
+    "version" => "3.0",
+    "recherche" => $cherche
+  );
+  
+  echo json_encode($tabFinal);
   
   die("");
 }
 
 ?>
+
+
+
+
+
