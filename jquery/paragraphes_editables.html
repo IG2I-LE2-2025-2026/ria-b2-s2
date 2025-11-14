@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta charset="UTF-8">
+<title>Paragraphes éditables</title>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+  integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+  crossorigin="anonymous"></script>
+
+<style>
+  #contenu {
+    border: 1px solid gray;
+    padding: 1em;
+  }
+  
+  #contenu textarea {
+    display: block;
+  }
+</style>
+
+<script>
+  $(document).ready(function () {
+    // Au chargement de la page...
+    // Ajouter les contrôles d'ajout de paragraphe
+    var new_txt = $("<input type=\"text\">")
+                    .addClass("txtAjoutParagraphe");
+    var new_btn = $("<input type=\"button\">")
+                    .val("+")
+                    .addClass("btnAjoutParagraphe");
+    $("#contenu")
+      .before(new_txt.clone())
+      .before(new_btn.clone());
+    $("#contenu")
+      .after(new_btn.clone())
+      .after(new_txt.clone());
+    
+    // Événements
+    $(".btnAjoutParagraphe").click(ajout_paragraphe);
+    // S'applique uniquement aux paragrpahes présents à la fin du chargement de la page :
+    //$("#contenu p").click(editer_paragraphe);
+    // S'applique à tous les paragrpahes de #contenu, présents et futurs :
+    $(document).on("click", "#contenu p", editer_paragraphe);
+  });
+  
+  // Au clic sur un paragraphe : l'éditer
+  function editer_paragraphe() {
+    console.log("Fonction editer_paragraphe");
+    var new_textarea = $("<textarea>")
+                         .val($(this).html());
+    $(this).replaceWith(new_textarea);
+  }
+  
+  // Au clic sur « + » : ajouter un paragraphe dans #contenu
+  function ajout_paragraphe(event) {
+    // Les fonctions appelées par JQuery sont toujours destinatrices de l'objet event
+    console.log("Fonction ajout_paragraphe");
+    console.log(event);
+    var par = $("<p>");
+    var contenu = $(this).prev().val().trim();
+    console.log(contenu);
+    if (contenu === "") {
+      par.html("Nouveau paragraphe");
+    } else {
+      par.html(contenu);
+    }
+    // On compare le bouton qui a effectué l'événement (event.target) au premier bouton « + » : si ce sont les mêmes, alors on a cliqué sur le premier bouton
+    if ($(this).is(".btnAjoutParagraphe:first")) {
+      $("#contenu").prepend(par);
+    } else {
+      $("#contenu").append(par);
+    }
+  }
+</script>
+
+</head>
+
+<body>
+
+<h1>Paragraphes éditables</h1>
+
+<div id="contenu">
+  <p>Ceci est un contenu intéressant mais volumineux</p>
+  <p>Paragraphe 2</p>
+</div>
+
+<p>Copyright moi-même</p>
+
+</body>
+</html> 
