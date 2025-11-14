@@ -44,7 +44,20 @@
     $(document).on("click", "#contenu p", editer_paragraphe);
     $(document).on("keydown", "#contenu textarea",
                    valider_paragraphe);
+    $(document).keydown(annuler_toutes_editions);
   });
+  
+  // Appui Échap : annuler toutes les éditions
+  function annuler_toutes_editions(oEvent) {
+    console.log("annuler_toutes_editions");
+    if (oEvent.key === "Escape") {
+      $("#contenu textarea").each(function () {
+        var ancien_par = $(this).data("ancienne_valeur");
+        var new_p = $("<p>").html(ancien_par);
+        $(this).replaceWith(new_p);
+      });
+    }
+  }
   
   // Appui Entrée : valider un paragraphe édité
   function valider_paragraphe(oEvent) {
