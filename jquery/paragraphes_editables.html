@@ -38,6 +38,11 @@
     
     // Événements
     $(".btnAjoutParagraphe").click(ajout_paragraphe);
+    $(".txtAjoutParagraphe").keydown(function (oEvent) {
+      if (oEvent.key === "Enter") {
+        $(this).next().click();
+      }
+    });
     // S'applique uniquement aux paragrpahes présents à la fin du chargement de la page :
     //$("#contenu p").click(editer_paragraphe);
     // S'applique à tous les paragrpahes de #contenu, présents et futurs :
@@ -77,6 +82,7 @@
           .val($(this).html())
           .data("ancienne_valeur", $(this).html());
     $(this).replaceWith(new_textarea);
+    new_textarea.focus();
   }
   
   // Au clic sur « + » : ajouter un paragraphe dans #contenu
@@ -87,6 +93,7 @@
     var par = $("<p>");
     var contenu = $(this).prev().val().trim();
     console.log(contenu);
+    $(this).prev().val("");
     if (contenu === "") {
       par.html("Nouveau paragraphe");
     } else {
