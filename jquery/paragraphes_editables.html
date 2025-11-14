@@ -42,13 +42,27 @@
     //$("#contenu p").click(editer_paragraphe);
     // S'applique à tous les paragrpahes de #contenu, présents et futurs :
     $(document).on("click", "#contenu p", editer_paragraphe);
+    $(document).on("keydown", "#contenu textarea",
+                   valider_paragraphe);
   });
+  
+  // Appui Entrée : valider un paragraphe édité
+  function valider_paragraphe(oEvent) {
+    console.log("Fonction valider_paragraphe");
+    console.log(oEvent);
+    if (oEvent.key === "Enter") {
+      // Remplace le textarea par un p
+      $(this).replaceWith($("<p>")
+             .html($(this).val()));
+    }
+  }
   
   // Au clic sur un paragraphe : l'éditer
   function editer_paragraphe() {
     console.log("Fonction editer_paragraphe");
     var new_textarea = $("<textarea>")
-                         .val($(this).html());
+          .val($(this).html())
+          .data("ancienne_valeur", $(this).html());
     $(this).replaceWith(new_textarea);
   }
   
